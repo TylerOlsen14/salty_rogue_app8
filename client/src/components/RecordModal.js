@@ -9,14 +9,19 @@ import {
   Label, 
   Input 
 } from 'reactstrap';
-import { connect } from 'react-redux';
-import { addRecord } from '../actions/recordActions';
-import uuid from 'uuid'
 
 class RecordModal extends Component {
   state = {
     modal: false,
-    clientName: '',
+    ClientName: '',
+    ClientPhoneNumber: '',
+    ClientConversation: '',
+  }
+
+  handleSubmit(e) {
+    e.preventDefault();
+    console.log(this.state)
+    this.props.onSubmit(this.state)
   }
 
   toggle = () => {
@@ -26,27 +31,27 @@ class RecordModal extends Component {
   }
 
   onChange = (e) => {
+    console.log(this.state)
     this.setState({ 
-      [e.target.clientName]: e.target.value,
-      [e.target.clientPhoneNumber]: e.target.value,
-      [e.target.clientConversation]: e.target.value,    
+      [e.target.name]: e.target.value,   
     });
   }
 
-  onSubmit = e => {
+  onSubmit = async e => {
     e.preventDefault();
-    const newRecord = {
-      id: uuid(),
-      clientName: this.state.clientName,
-      clientPhoneNumber: this.state.clientPhoneNumber,
-      clientConversation: this.state.clientConversation
-    }
-
-    // Add record via AddRecord action
-    this.props.addRecord(newRecord);
-
-    //Close modal
-    this.toggle();
+    await fetch(`http://localhost:5000/`, {
+      method: "POST",
+      body: JSON.stringify(this.state),
+      headers: {
+          "Content-Type": "application/json",
+        }
+      }
+    )};
+    
+  newRecord = {
+    ClientName: this.state.ClientName,
+    ClientPhoneNumber: this.state.ClientPhoneNumber,
+    ClientConversation: this.state.ClientConversation
   }
 
   render() {
@@ -70,27 +75,27 @@ class RecordModal extends Component {
           </ModalHeader>
           <ModalBody>
             <Form onSubmit={this.onSubmit}>
-              <FormGroup>
+              <FormGroup onSubmit={this.handleSubmit}>
                 <Label for="record">
                   Phone Record - Keep our conversations and discussions in order
                 </Label>
                 <Input 
                   type="text"
-                  name="clientName"
+                  name="ClientName"
                   id="item"
                   placeholder="Client Name"
                   onChange={this.onChange}
                 />
                 <Input 
                   type="number"
-                  name="clientPhoneNumber"
+                  name="ClientPhoneNumber"
                   id="item"
                   placeholder="Create Phone Number"
                   onChange={this.onChange}
                 />
                 <Input 
                   type="text"
-                  name="clientConversation"
+                  name="ClientConversation"
                   id="item"
                   placeholder="Create record"
                   onChange={this.onChange}
@@ -111,8 +116,4 @@ class RecordModal extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  record: state.record
-})
-
-export default connect(mapStateToProps, { addRecord })( RecordModal );
+export default ( RecordModal );

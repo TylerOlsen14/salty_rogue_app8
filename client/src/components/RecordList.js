@@ -25,6 +25,10 @@ class RecordList extends Component{
   //   await this.getRecords
   // }
 
+  onDeleteClick = (id) => {
+    this.props.deleteRecord(id)
+  }
+
   render() {
     console.log(this);
     console.log(this.state);
@@ -39,7 +43,7 @@ class RecordList extends Component{
             const record = prompt('Add Record');
             if(record) {
               this.setState(state => ({
-                records: []
+                records: [...state.records]
                 // records: [...state.records, {id: uuid(), name }]
               }));
             }
@@ -49,20 +53,16 @@ class RecordList extends Component{
         </Button>
         <ListGroup>
           <TransitionGroup className="Records-List">
-            {this.state.records.map((record, i) => (
-              <CSSTransition key={i} timeout={500} classNames="fade">
+            {this.state.records.map((record, _id) => (
+              <CSSTransition key={_id} timeout={500} classNames="fade">
                 <ListGroupItem>
                         <h5>Client Name: {record.ClientName}, {record._id}</h5>
                         <h5>Client Phone Number: {record.ClientPhoneNumber}</h5>
                   <Button
-                    // className="remove-btn"
-                    // color="danger"
-                    // size="sm"
-                    // onClick={() => {
-                    //   this.setState(state => ({
-                    //     record: state.record.filter(record => record._id !==_id)
-                    //   }))
-                    // }}
+                    className="remove-btn"
+                    color="danger"
+                    size="sm"
+                    onClick={this.onDeleteClick.bind(this, _id)}
                     >
                     &times;
                   </Button>
