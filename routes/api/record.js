@@ -26,7 +26,7 @@ router.post('/', (req, res) => { //represents api/items (because we're already i
 
   newRecord.save().then(Record => res.json(Record)); //save to the database, spit out JSON
 
-  // @route   DELETE api/record
+// @route   DELETE api/record
 // @desc    Delete a record entry
 // @access   Public
 router.delete('/:id', (req, res) => { //represents api/items (because we're already in that file)
