@@ -8,8 +8,8 @@ const Record = require('../../models/Record')
 // @route   GET api/items
 // @desc    GET all Items
 // @access   Public
-router.get('/', (req, res) => { //represents api/items (because we're already in that file)
-  Record.find()
+router.get('/', async (req, res) => { //represents api/items (because we're already in that file)
+  await Record.find()
     .sort({ date: -1 })//sort descending
     .then(records => res.json(records))
 })

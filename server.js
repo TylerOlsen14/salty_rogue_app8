@@ -1,11 +1,13 @@
 const express = require('express');// backend framework
 const mongoose = require('mongoose');// ORM to interact with database
 const bodyParser = require('body-parser');// allow requests and get data from body
+const cors = require('cors')
 
 const record = require('./routes/api/record')
 
 const app = express();
 
+app.use(cors())
 //Bodyparser middleware
 app.use(bodyParser.json());
 
@@ -19,7 +21,7 @@ mongoose
   .catch(err => console.log(err));
 
   //use routes
-app.use('/api/record', record)
+app.use('/', record)
 
   const port = process.env.PORT || 5000;
 

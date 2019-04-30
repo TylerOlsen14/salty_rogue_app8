@@ -8,25 +8,28 @@ class RecordList extends Component{
   }
 
   getRecords = async () => {
-    const url = 'mongodb://Tucker:Tucker@cluster0-shard-00-00-tihhu.mongodb.net:27017,cluster0-shard-00-01-tihhu.mongodb.net:27017,cluster0-shard-00-02-tihhu.mongodb.net:27017/test.records?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true'
-    // const url = 'localhost:5000/api/record'
-    return fetch(url)
+    await fetch('http://localhost:5000/')
       .then(response => {
+       
         return response.json();
       })
-      .then(data => this.setState({ records: data })
+      .then(data => 
+        this.setState({ records: data }))
       .catch(error => console.log('Error:', error))
-      )}
+      }
   
-  async componentWillMount() {
-    await this.getRecords
+  componentWillMount() {
+    this.getRecords()
   }
+  // async componentWillMount() {
+  //   await this.getRecords
+  // }
 
   render() {
     console.log(this);
     console.log(this.state);
-    console.log(this.state.records);
-    const { records } = this.state;
+    console.log(this.state.record);
+    // const { record } = this.state;
     return(
       <Container>
         <Button
@@ -46,32 +49,24 @@ class RecordList extends Component{
         </Button>
         <ListGroup>
           <TransitionGroup className="Records-List">
-            {records.map(({ id, ClientName, ClientPhoneNumber, ClientNotes}) => (
-              <CSSTransition key={id} timeout={500} classNames="fade">
+            {this.state.records.map((record, i) => (
+              <CSSTransition key={i} timeout={500} classNames="fade">
                 <ListGroupItem>
+                        <h5>Client Name: {record.ClientName}, {record._id}</h5>
+                        <h5>Client Phone Number: {record.ClientPhoneNumber}</h5>
                   <Button
-                    className="remove-btn"
-                    color="danger"
-                    size="sm"
-                    onClick={() => {
-                      this.setState(state => ({
-                        records: state.records.filter(record => record.id !==id)
-                      }))
-                    }}
+                    // className="remove-btn"
+                    // color="danger"
+                    // size="sm"
+                    // onClick={() => {
+                    //   this.setState(state => ({
+                    //     record: state.record.filter(record => record._id !==_id)
+                    //   }))
+                    // }}
                     >
                     &times;
                   </Button>
-                  <div>
-                    {this.state.record.map((record,index) => {
-                        return (
-                      <div className="border" key={index}>
-                        <h5>Client Name: </h5>{ClientName}
-                        <h5>Client Phone Number: </h5>{ClientPhoneNumber}
-                      </div>
-                        )
-                      })
-                    }
-                  </div>
+                  
                 </ListGroupItem>
               </CSSTransition>
             ))}
