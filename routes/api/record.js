@@ -23,9 +23,8 @@ router.post('/', (req, res) => { //represents api/items (because we're already i
     ClientPhoneNumber: req.body.ClientPhoneNumber, //name comes from a request
     ClientNotes: req.body.ClientNotes //name comes from a request
   });
-
   newRecord.save().then(Record => res.json(Record)); //save to the database, spit out JSON
-
+})
 // @route   DELETE api/record
 // @desc    Delete a record entry
 // @access   Public
@@ -37,5 +36,5 @@ router.delete('/:id', (req, res) => { //represents api/items (because we're alre
     .catch (err => res.status(404).json({success: false}))
 })
 
-})
+
 module.exports = router

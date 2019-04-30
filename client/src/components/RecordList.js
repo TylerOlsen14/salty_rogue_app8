@@ -1,30 +1,31 @@
 import React, { Component } from 'react';
 import { Container, ListGroup, ListGroupItem, Button } from 'reactstrap';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
-import uuid from 'uuid';
-
-const mongodb = 'mongodb://Tucker:Tucker@cluster0-shard-00-00-tihhu.mongodb.net:27017,cluster0-shard-00-01-tihhu.mongodb.net:27017,cluster0-shard-00-02-tihhu.mongodb.net:27017/test?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true'
-
-const getRecords = {
-  fetch(mongodb, {
-    .then(response => response.json())
-    .then(data => {
-      console.log(data)
-    })
-}
-
 
 class RecordList extends Component{
-  state= {
-    records: [
-      { id: uuid(), ClientName: 'Tyler', ClientPhoneNumber: 8, ClientNotes: 'We talked' },
-      { id: uuid(), ClientName: 'Chloe', ClientPhoneNumber: 5, ClientNotes: 'We laughed' },
-      { id: uuid(), ClientName: 'Carter', ClientPhoneNumber: 6, ClientNotes: 'We drank' },
-      { id: uuid(), ClientName: 'Laurel', ClientPhoneNumber: 7, ClientNotes: 'We ate' },
-    ]
+  state = {
+    records: [],
+  }
+
+  getRecords = async () => {
+    const url = 'mongodb://Tucker:Tucker@cluster0-shard-00-00-tihhu.mongodb.net:27017,cluster0-shard-00-01-tihhu.mongodb.net:27017,cluster0-shard-00-02-tihhu.mongodb.net:27017/test.records?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true'
+    // const url = 'localhost:5000/api/record'
+    return fetch(url)
+      .then(response => {
+        return response.json();
+      })
+      .then(data => this.setState({ records: data })
+      .catch(error => console.log('Error:', error))
+      )}
+  
+  async componentWillMount() {
+    await this.getRecords
   }
 
   render() {
+    console.log(this);
+    console.log(this.state);
+    console.log(this.state.records);
     const { records } = this.state;
     return(
       <Container>
@@ -32,10 +33,11 @@ class RecordList extends Component{
           color="dark"
           style={{marginBottom: '2rem'}}
           onClick={() => {
-            const name = prompt('Add Record');
-            if(name) {
+            const record = prompt('Add Record');
+            if(record) {
               this.setState(state => ({
-                records: [...state.records, {id: uuid(), name }]
+                records: []
+                // records: [...state.records, {id: uuid(), name }]
               }));
             }
           }}
@@ -43,7 +45,7 @@ class RecordList extends Component{
           Add Record
         </Button>
         <ListGroup>
-          <TransitionGroup className="Record-List">
+          <TransitionGroup className="Records-List">
             {records.map(({ id, ClientName, ClientPhoneNumber, ClientNotes}) => (
               <CSSTransition key={id} timeout={500} classNames="fade">
                 <ListGroupItem>
@@ -59,7 +61,17 @@ class RecordList extends Component{
                     >
                     &times;
                   </Button>
-                  {ClientName}, {ClientPhoneNumber}
+                  <div>
+                    {this.state.record.map((record,index) => {
+                        return (
+                      <div className="border" key={index}>
+                        <h5>Client Name: </h5>{ClientName}
+                        <h5>Client Phone Number: </h5>{ClientPhoneNumber}
+                      </div>
+                        )
+                      })
+                    }
+                  </div>
                 </ListGroupItem>
               </CSSTransition>
             ))}
