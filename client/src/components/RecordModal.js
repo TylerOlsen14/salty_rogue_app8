@@ -46,7 +46,10 @@ class RecordModal extends Component {
           "Content-Type": "application/json",
         }
       }
-    )};
+    )
+    this.toggle();
+    this.props.refresh();//this refreshes the page after we're done
+  };
     
   newRecord = {
     ClientName: this.state.ClientName,

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Container, ListGroup, ListGroupItem, Button } from 'reactstrap';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
+import RecordModal from './RecordModal'
 
 class RecordList extends Component{
   state = {
@@ -10,7 +11,6 @@ class RecordList extends Component{
   getRecords = async () => {
     await fetch('http://localhost:5000/')
       .then(response => {
-       
         return response.json();
       })
       .then(data => 
@@ -21,6 +21,7 @@ class RecordList extends Component{
   componentWillMount() {
     this.getRecords()
   }
+
   // async componentWillMount() {
   //   await this.getRecords
   // }
@@ -33,24 +34,10 @@ class RecordList extends Component{
     console.log(this);
     console.log(this.state);
     console.log(this.state.record);
-    // const { record } = this.state;
     return(
       <Container>
-        <Button
-          color="dark"
-          style={{marginBottom: '2rem'}}
-          onClick={() => {
-            const record = prompt('Add Record');
-            if(record) {
-              this.setState(state => ({
-                records: [...state.records]
-                // records: [...state.records, {id: uuid(), name }]
-              }));
-            }
-          }}
-        >
-          Add Record
-        </Button>
+        <RecordModal refresh={this.getRecords}/> 
+        {/* //takes function, assigns it a prop, to a child component. Child component can call the function because I'm passing it in. */}
         <ListGroup>
           <TransitionGroup className="Records-List">
             {this.state.records.map((record, _id) => (
