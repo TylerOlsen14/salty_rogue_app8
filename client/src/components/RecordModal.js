@@ -15,7 +15,7 @@ class RecordModal extends Component {
     modal: false,
     ClientName: '',
     ClientPhoneNumber: '',
-    ClientConversation: '',
+    ClientNotes: '',
   }
 
   handleSubmit(e) {
@@ -54,7 +54,7 @@ class RecordModal extends Component {
   newRecord = {
     ClientName: this.state.ClientName,
     ClientPhoneNumber: this.state.ClientPhoneNumber,
-    ClientConversation: this.state.ClientConversation
+    ClientNotes: this.state.ClientNotes
   }
 
   render() {
@@ -98,9 +98,9 @@ class RecordModal extends Component {
                 />
                 <Input 
                   type="text"
-                  name="ClientConversation"
+                  name="ClientNotes"
                   id="item"
-                  placeholder="Create record"
+                  placeholder="Create coversation record"
                   onChange={this.onChange}
                 />
                 <Button
