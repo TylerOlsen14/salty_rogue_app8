@@ -13,7 +13,7 @@ import {
 class UpdateRecordModal extends Component {
   state = {
     modal: false,
-    ClientName: this.props.record.ClientName,
+    ClientName: '',
     ClientPhoneNumber: '',
     ClientNotes: '',
   }
@@ -101,6 +101,7 @@ class UpdateRecordModal extends Component {
                   id="item"
                   // placeholder={Client Name}
                   onChange={this.onChange}
+                  value={this.state.ClientName}
                 />
                 <Input 
                   type="number"
@@ -108,6 +109,7 @@ class UpdateRecordModal extends Component {
                   id="item"
                   // placeholder="Create Phone Number"
                   onChange={this.onChange}
+                  value={this.state.ClientPhoneNumber}
                 />
                 <Input 
                   type="text"
@@ -115,6 +117,7 @@ class UpdateRecordModal extends Component {
                   id="item"
                   // placeholder="Create coversation record"
                   onChange={this.onChange}
+                  value={this.state.ClientNotes}
                 />
                 <Button
                   color="dark"
