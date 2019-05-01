@@ -48,7 +48,7 @@ class UpdateRecordModal extends Component {
 
   onSubmit = async e => {
     e.preventDefault();
-    await fetch(`http://localhost:5000/`, {
+    await fetch(`http://localhost:5000/`+ this.props.record._id, {
       method: "PUT",
       body: JSON.stringify(this.state),
       headers: {

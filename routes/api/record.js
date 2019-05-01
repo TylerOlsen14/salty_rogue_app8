@@ -14,11 +14,9 @@ router.get('/', async (req, res) => { //represents api/items (because we're alre
     .then(records => res.json(records))
 })
 
-// @route   GET api/:id
-// @desc    GET all Items
-// @access   Public
 router.get('/:id', async (req, res) => { //represents api/items (because we're already in that file)
-  await Record.find()
+  await Record
+    .findById(req.params.id)
     .then(records => res.json(records))
 })
 
@@ -33,6 +31,24 @@ router.post('/', (req, res) => { //represents api/items (because we're already i
   });
   newRecord.save().then(Record => res.json(Record)); //save to the database, spit out JSON
 })
+
+// @route   POST api/record
+// @desc    Create a record entry
+// @access   Public
+router.put('/:id', (req, res) => { //represents api/items (because we're already in that file)
+  Record.findByIdAndUpdate(
+    req.params.id,
+    req.body,
+    {new: true},
+    (err, Record) => {
+      // Handle any possible database errors
+          if (err) return res.status(500).send(err);
+          return res.send(Record);
+    }
+  ) 
+});
+
+
 // @route   DELETE api/record
 // @desc    Delete a record entry
 // @access   Public
