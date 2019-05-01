@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Container, ListGroup, ListGroupItem, Button } from 'reactstrap';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import RecordModal from './RecordModal'
+import UpdateRecordModal from "./UpdateRecordModal";
 
 class RecordList extends Component{
   state = {
@@ -18,23 +19,26 @@ class RecordList extends Component{
       .catch(error => console.log('Error:', error))
       }
   
-  componentWillMount() {
-    this.getRecords()
-  }
-
   onDeleteClick = async (_id) => {
     await fetch('http://localhost:5000/' + _id, {
       method: "DELETE"
     })
     .then(resp => {
       this.getRecords();
-  });
-}
+    });
+  }
+  
+  // onEditClick = async (_id) => {
+  //   <UpdateRecordModal />
+  // }
+
+  componentWillMount() {
+    this.getRecords()
+  }
 
   render() {
     console.log(this);
     console.log(this.state);
-    console.log(this.state.record);
     return(
       <Container>
         <RecordModal refresh={this.getRecords}/> 
@@ -46,6 +50,7 @@ class RecordList extends Component{
                 <ListGroupItem>
                         <h5>Client Name: {record.ClientName}</h5>
                         <h5>Client Phone Number: {record.ClientPhoneNumber}</h5>
+                        <h5>Notes: {record.ClientNotes}</h5>
                   <Button
                     className="remove-btn"
                     color="danger"
@@ -54,7 +59,9 @@ class RecordList extends Component{
                     >
                     &times;
                   </Button>
-                  
+
+            <UpdateRecordModal record={record} refresh={this.getRecords} />
+
                 </ListGroupItem>
               </CSSTransition>
             ))}

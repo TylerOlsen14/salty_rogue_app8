@@ -14,6 +14,14 @@ router.get('/', async (req, res) => { //represents api/items (because we're alre
     .then(records => res.json(records))
 })
 
+// @route   GET api/:id
+// @desc    GET all Items
+// @access   Public
+router.get('/:id', async (req, res) => { //represents api/items (because we're already in that file)
+  await Record.find()
+    .then(records => res.json(records))
+})
+
 // @route   POST api/record
 // @desc    Create a record entry
 // @access   Public
