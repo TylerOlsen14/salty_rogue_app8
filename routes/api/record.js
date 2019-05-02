@@ -2,7 +2,8 @@ const express = require('express');
 const router = express.Router();
 
 //Client Model - Help make queries
-const Record = require('../../models/Record')
+// const Record = require('../../models/record')
+const Record = require('../../models/record')
 
 // adding a series of routes
 // @route   GET api/items
